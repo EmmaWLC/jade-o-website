@@ -1,5 +1,5 @@
 import { type SchemaTypeDefinition } from 'sanity'
-
+import { globalLabelType } from './globalLabelType'
 import { categoryType } from './categoryType'
 import { newsType } from './newsType'
 import { authorType } from './authorType'
@@ -12,11 +12,15 @@ import { clientType } from './clientType'
 import { designTeamType } from './designTeamType'
 import { homepageType } from './homepageType'
 
-import { translationType } from './translationType'
+
+import { navItemType, navigationSettingsType } from './navigationTypes'
+
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     categoryType,
+    navItemType,
+    navigationSettingsType,
     newsType,
     authorType,
     projectType,
@@ -25,7 +29,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     clientType,
     designTeamType,
     homepageType,
-    translationType,
+    globalLabelType,
     usageType,
     awardsType,
   ],

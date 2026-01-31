@@ -1,20 +1,21 @@
 import type { StructureResolver } from 'sanity/structure'
-import { HomeIcon, DocumentIcon, UsersIcon, TagIcon, UserIcon, BellIcon, StarIcon } from '@sanity/icons'
+import { HomeIcon, DocumentIcon, UsersIcon, TagIcon, UserIcon, BellIcon, StarIcon, LinkIcon, TranslateIcon } from '@sanity/icons'
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Content') // 改為一個更廣義的總標題
+    .title('Content')
     .items([
       S.listItem()
         .title('Homepage Settings')
-        .icon(HomeIcon) // 記得匯入 HomeIcon
+        .icon(HomeIcon)
         .child(
           S.document()
             .schemaType('homepage')
-            .documentId('homepage') // 強制指定 ID，確保永遠只有一份主頁資料
+            .documentId('homepage')
         ),
       S.divider(),
+      
       // --- Projects 分類 ---
       S.listItem()
         .title('Projects Management')
@@ -52,11 +53,42 @@ export const structure: StructureResolver = (S) =>
 
       S.divider(),
 
+      // --- Settings 分類 ---
+      S.listItem()
+        .title('Navigation Settings')
+        .icon(LinkIcon)
+        .child(
+          S.document()
+            .schemaType('navigationSettings')
+            .documentId('navigationSettings')
+        ),
+      
+      S.divider(), // 👈 這是你要的分隔線
+      
+      S.documentTypeListItem('globalLabel')
+        .title('globalLabel')
+        .icon(TranslateIcon),
+
+      S.divider(),
+
       // --- 剩餘項目 ---
-      // 過濾掉已經手動排進去的 ID，避免重複出現在選單底部
       ...S.documentTypeListItems().filter(
         (item) =>
           item.getId() &&
-          !['homepage','project', 'collaborators', 'status', 'client', 'designTeam', 'news', 'category', 'author', 'awards', 'usage'].includes(item.getId()!),
+          ![
+            'homepage',
+            'project',
+            'collaborators',
+            'status',
+            'client',
+            'designTeam',
+            'news',
+            'category',
+            'author',
+            'awards',
+            'usage',
+            'navigationSettings',
+            'globalLabel',
+          ].includes(item.getId()!),
       ),
     ])

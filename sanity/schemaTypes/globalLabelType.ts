@@ -1,8 +1,8 @@
 import { defineField, defineType } from 'sanity'
 
-export const translationType = defineType({
-  name: 'translation',
-  title: 'Global Dictionary',
+export const globalLabelType = defineType({
+  name: 'globalLabel',
+  title: 'Global Label',
   type: 'document',
   fields: [
     defineField({
@@ -58,7 +58,7 @@ export const translationType = defineType({
     },
     prepare() {
       return {
-        title: 'Global Labels',
+        title: 'All Labels',
       };
     },
   },
