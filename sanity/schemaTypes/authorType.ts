@@ -1,5 +1,5 @@
-import {UserIcon} from '@sanity/icons'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import { UserIcon } from '@sanity/icons'
+import { defineField, defineType } from 'sanity'
 
 export const authorType = defineType({
   name: 'author',
@@ -9,7 +9,8 @@ export const authorType = defineType({
   fields: [
     defineField({
       name: 'name',
-      type: 'string',
+      title: 'Author Name',
+      type: 'internationalizedArrayString',
     }),
     defineField({
       name: 'slug',
@@ -20,27 +21,33 @@ export const authorType = defineType({
     }),
     defineField({
       name: 'image',
+      title: 'Profile Image',
       type: 'image',
       options: {
         hotspot: true,
       },
     }),
-    defineField({
-      name: 'bio',
-      type: 'array',
-      of: [
-        defineArrayMember({
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-        }),
-      ],
-    }),
   ],
   preview: {
     select: {
-      title: 'name',
+      allNames: 'name', // 這是 internationalizedArrayString 產生的陣列
       media: 'image',
+    },
+    prepare({ allNames, media }) {
+      // 1. 優先尋找中文 (zh)
+      // 2. 如果沒中文，找英文 (en)
+      // 3. 如果都沒填，就拿陣列裡的第一個值
+      // 4. 再都沒有，才顯示 'Untitled'
+
+      const nameEntry =
+        allNames?.find((n: any) => n._key === 'en') ||
+        allNames?.find((n: any) => n._key === 'zh') ||
+        allNames?.[0];
+
+      return {
+        title: nameEntry?.value || 'Untitled Author',
+        media,
+      }
     },
   },
 })

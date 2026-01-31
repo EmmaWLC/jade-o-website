@@ -7,6 +7,7 @@
 import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
+import { internationalizedArray } from 'sanity-plugin-internationalized-array'
 
 // Go to https://www.sanity.io/docs/api-versioning to learn how API versioning works
 import {apiVersion, dataset, projectId} from './sanity/env'
@@ -24,5 +25,14 @@ export default defineConfig({
     // Vision is for querying with GROQ from inside the Studio
     // https://www.sanity.io/docs/the-vision-plugin
     visionTool({defaultApiVersion: apiVersion}),
+    internationalizedArray({
+      languages: [
+        { id: 'zh', title: '中文' },
+        { id: 'en', title: 'English' },
+        { id: 'jp', title: '日本語' }, // 未來隨時增加
+      ],
+      defaultLanguages: ['en'],
+      fieldTypes: ['string', 'text', 'blockContent'], // 定義哪些型別需要多國語系
+    })
   ],
 })
