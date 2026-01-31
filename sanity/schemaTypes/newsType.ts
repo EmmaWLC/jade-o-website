@@ -9,7 +9,7 @@ export const newsType = defineType({
   fields: [
     defineField({
       name: 'title',
-      type: 'string',
+      type: 'internationalizedArrayString',
     }),
     defineField({
       name: 'slug',
@@ -32,7 +32,7 @@ export const newsType = defineType({
       fields: [
         defineField({
           name: 'alt',
-          type: 'string',
+          type: 'internationalizedArrayString',
           title: 'Alternative text',
         })
       ]
@@ -47,8 +47,9 @@ export const newsType = defineType({
       type: 'datetime',
     }),
     defineField({
-      name: 'body',
-      type: 'blockContent',
+      name: 'content',
+      title: 'Detailed Content',
+      type: 'internationalizedArrayString',
     }),
   ],
   preview: {
@@ -58,8 +59,16 @@ export const newsType = defineType({
       media: 'mainImage',
     },
     prepare(selection) {
-      const { author } = selection
-      return { ...selection, subtitle: author && `by ${author}` }
+      const { author, title } = selection
+      // 處理多語系
+      const displayTitle = Array.isArray(title) ? title[0]?.value : title
+      const displayAuthor = Array.isArray(author) ? author[0]?.value : author
+     
+      return {
+        title: displayTitle,
+        subtitle: displayAuthor && `by ${displayAuthor}`,
+        media: selection.media
+      }
     },
   },
 })

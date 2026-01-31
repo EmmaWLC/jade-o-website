@@ -58,7 +58,6 @@ export const translationType = defineType({
     },
     prepare() {
       return {
-        // 💡 這裡直接寫死你想顯示的文字
         title: 'Global Labels',
       };
     },

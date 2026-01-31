@@ -32,7 +32,7 @@ export default defineConfig({
         { id: 'jp', title: '日本語' }, // 未來隨時增加
       ],
       defaultLanguages: ['en'],
-      fieldTypes: ['string', 'text', 'blockContent'], // 定義哪些型別需要多國語系
+      fieldTypes: ['string', 'text'], // 定義哪些型別需要多國語系
     })
   ],
 })

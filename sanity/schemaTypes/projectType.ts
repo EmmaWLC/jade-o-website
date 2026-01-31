@@ -102,7 +102,7 @@ export const projectType = defineType({
         defineField({
             name: 'content',
             title: 'Detailed Content',
-            type: 'internationalizedArrayBlockContent',
+            type: 'internationalizedArrayString',
         }),
         defineField({
             name: 'renderImages',

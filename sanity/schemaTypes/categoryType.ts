@@ -9,7 +9,7 @@ export const categoryType = defineType({
   fields: [
     defineField({
       name: 'title',
-      type: 'string',
+      type: 'internationalizedArrayString',
     }),
     defineField({
       name: 'slug',
@@ -20,7 +20,19 @@ export const categoryType = defineType({
     }),
     defineField({
       name: 'description',
-      type: 'text',
+      type: 'internationalizedArrayText',
     }),
   ],
+  preview: {
+    select: {
+      title: 'title',
+    },
+    prepare(selection) {
+      const { title } = selection
+      const displayTitle = Array.isArray(title) ? title[0]?.value : title
+      return {
+        title: displayTitle,
+      }
+    },
+  },
 })

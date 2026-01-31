@@ -27,6 +27,11 @@ export const authorType = defineType({
         hotspot: true,
       },
     }),
+    defineField({
+      name: 'bio',
+      title: 'Bio',
+      type: 'internationalizedArrayString',
+    }),
   ],
   preview: {
     select: {
