@@ -11,21 +11,18 @@ export const homepageType = defineType({
     defineField({
       name: 'title',
       title: 'Hero Title',
-      // 改成多國語系字串
       type: 'internationalizedArrayString',
       description: 'The main headline on the homepage',
     }),
     defineField({
       name: 'subtitle',
       title: 'Subtitle',
-      // 改成多國語系長文字
       type: 'internationalizedArrayText',
       description: 'A short introduction under the main title',
     }),
     defineField({
       name: 'newsLinkText',
       title: 'News Button Text',
-      // 按鈕文字也需要多國語系
       type: 'internationalizedArrayString',
     }),
 
@@ -40,10 +37,39 @@ export const homepageType = defineType({
         {
           name: 'alt',
           title: 'Alt Text (SEO)',
-          // 圖片敘述通常也要分語言，對 SEO 有幫助
           type: 'internationalizedArrayString',
         }
       ]
+    }),
+
+    // --- Split Hero Section (新增) ---
+    defineField({
+      name: 'heroSplit',
+      title: 'Hero Split Section',
+      type: 'object',
+      description: 'Two featured projects displayed side-by-side',
+      fields: [
+        {
+          name: 'leftProject',
+          title: 'Left Project',
+          type: 'reference',
+          to: [{ type: 'project' }],
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'rightProject',
+          title: 'Right Project',
+          type: 'reference',
+          to: [{ type: 'project' }],
+          validation: (Rule) => Rule.required(),
+        },
+        {
+          name: 'description',
+          title: 'Bottom Description',
+          type: 'internationalizedArrayText',
+          description: 'Text displayed below the images',
+        },
+      ],
     }),
 
     // --- Featured Content ---
@@ -52,8 +78,6 @@ export const homepageType = defineType({
       title: 'Featured Projects',
       description: 'Select projects to display on the homepage',
       type: 'array',
-      // 這裡不需要改！因為引用的是 project 本體，
-      // 語言內容會去 project 裡面抓，這裡只是建立連結。
       of: [
         {
           type: 'reference',
@@ -69,15 +93,13 @@ export const homepageType = defineType({
       type: 'internationalizedArrayString',
     }),
   ],
-  // ... 前面的 fields 代碼
 
   preview: {
     select: {
-      titleArray: 'title', // 抓取多國語系標題陣列
+      titleArray: 'title',
       subtitleArray: 'subtitle',
     },
     prepare({ titleArray, subtitleArray }) {
-      // 1. 優先找中文 (zh) 的內容，找不到就找英文 (en)，再找不到就抓陣列第一個
       const titleEntry = titleArray?.find((i: any) => i._key === 'zh') || titleArray?.[0]
       const subtitleEntry = subtitleArray?.find((i: any) => i._key === 'zh') || subtitleArray?.[0]
 
